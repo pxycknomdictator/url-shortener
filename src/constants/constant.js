@@ -9,4 +9,6 @@ const _configs = {
   access_token_key: process.env.ACCESS_TOKEN_SECRET_KEY,
 };
 
+Object.freeze(_configs);
+
 export { _configs };
