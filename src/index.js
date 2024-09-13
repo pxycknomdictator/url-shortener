@@ -3,6 +3,7 @@ import path from "path";
 import { _configs } from "./constants/constant.js";
 import cookieParser from "cookie-parser";
 import authRouter from "./routes/user.route.js";
+import urlRouter from "./routes/url.route.js";
 
 const app = express();
 const PORT = _configs.port || 8000;
@@ -18,6 +19,7 @@ app.set("views", path.resolve("./src/views"));
 
 // auth routes
 app.use("/auth", authRouter);
+app.use("/", urlRouter);
 
 // Listening on port
 app.listen(PORT, () =>
