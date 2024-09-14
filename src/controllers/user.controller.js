@@ -1,6 +1,9 @@
 import { User } from "../models/user.model.js";
 import { validateUserInformation } from "../middlewares/user.validate.middleware.js";
-import { hash_password } from "../middlewares/password.middleware.js";
+import {
+  hash_password,
+  decrypt_password,
+} from "../middlewares/password.middleware.js";
 
 const handleShowRegisterPage = (req, res) => {
   res.status(200).render("register");
@@ -29,8 +32,13 @@ const handleRegisterNewUser = async (req, res) => {
 };
 
 const handleLoginUser = async (req, res) => {
+  const { email, password } = req.body;
   try {
-    res.status(201).json({ message: "User Login" });
+    const isExist = await User.findOne({ email });
+    if (!isExist || !(await decrypt_password(password, isExist.password))) {
+      return res.status(401).json({ error: "Something went wrong" });
+    }
+    res.status(201).json(isExist);
   } catch (error) {
     res.status(401).json({ error: `Error ${error?.message}` });
   }
