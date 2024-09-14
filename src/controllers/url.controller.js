@@ -17,8 +17,16 @@ const handleGenerateShortUrl = async (req, res) => {
 };
 
 const handleRedirectUrl = async (req, res) => {
+  const id = req.params.shortId;
   try {
-    res.status(201).json({ message: "Redirected to url" });
+    const url = await Urls.findOneAndUpdate(
+      { shortId: id },
+      { $inc: { visit_history: 1 } }
+    );
+    if (!url) {
+      return res.status(401).send("This url not exists");
+    }
+    res.status(201).redirect(`${url.originalUrl}`);
   } catch (error) {
     res.status(401).send(`Error ${error?.message}`);
   }
