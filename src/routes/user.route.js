@@ -4,6 +4,7 @@ import {
   handleShowLoginPage,
   handleRegisterNewUser,
   handleLoginUser,
+  handleLogoutUser
 } from "../controllers/user.controller.js";
 
 const router = Router();
@@ -13,5 +14,6 @@ router
   .get(handleShowRegisterPage)
   .post(handleRegisterNewUser);
 router.route("/login").get(handleShowLoginPage).post(handleLoginUser);
+router.get("/logout", handleLogoutUser)
 
 export default router;

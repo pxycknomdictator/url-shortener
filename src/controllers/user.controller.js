@@ -22,9 +22,18 @@ const handleLoginUser = async (req, res) => {
   }
 };
 
+const handleLogoutUser = async (req, res) => {
+  try {
+    res.status(201).json({ message: "Logout User" });
+  } catch (error) {
+    res.status(401).json({ error: `Error ${error?.message}` });
+  }
+};
+
 export {
   handleShowRegisterPage,
   handleShowLoginPage,
   handleRegisterNewUser,
   handleLoginUser,
+  handleLogoutUser,
 };
