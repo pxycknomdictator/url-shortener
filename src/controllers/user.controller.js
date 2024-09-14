@@ -1,3 +1,6 @@
+import { User } from "../models/user.model.js";
+import { validateUserInformation } from "../middlewares/user.validate.middleware.js";
+
 const handleShowRegisterPage = (req, res) => {
   res.status(200).render("register");
 };
@@ -8,9 +11,10 @@ const handleShowLoginPage = (req, res) => {
 
 const handleRegisterNewUser = async (req, res) => {
   try {
-    res.status(201).json({ message: "User Register" });
+    const validate = await validateUserInformation(req.body);
+    res.status(201).json(validate);
   } catch (error) {
-    res.status(401).send(`Error ${error?.message}`);
+    res.status(401).send(`${error.errors[0].message}`);
   }
 };
 
