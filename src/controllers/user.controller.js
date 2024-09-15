@@ -4,6 +4,7 @@ import {
   hash_password,
   decrypt_password,
 } from "../middlewares/password.middleware.js";
+import { generate_Token } from "../middlewares/authenticate.middleware.js";
 
 const handleShowRegisterPage = (req, res) => {
   res.status(200).render("register");
@@ -38,7 +39,8 @@ const handleLoginUser = async (req, res) => {
     if (!isExist || !(await decrypt_password(password, isExist.password))) {
       return res.status(401).json({ error: "Something went wrong" });
     }
-    res.status(201).json(isExist);
+    const token = generate_Token(isExist);
+    res.status(200).cookie(token).json(isExist);
   } catch (error) {
     res.status(401).json({ error: `Error ${error?.message}` });
   }
