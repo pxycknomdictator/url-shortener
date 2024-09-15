@@ -40,7 +40,7 @@ const handleLoginUser = async (req, res) => {
       return res.status(401).json({ error: "Something went wrong" });
     }
     const token = generate_Token(isExist);
-    res.status(200).cookie(token).json(isExist);
+    res.status(200).cookie("Token", token).json(isExist);
   } catch (error) {
     res.status(401).json({ error: `Error ${error?.message}` });
   }
