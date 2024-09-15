@@ -4,8 +4,48 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login</title>
+    <%- include('./partials/header.ejs') %>
   </head>
   <body>
-    <h1>Login Account</h1>
+    <main class="w-[85%] mx-auto">
+      <h1 class="text-3xl font-semibold my-6">Login Account</h1>
+      <form
+        method="post"
+        action="/auth/login"
+        class="w-full space-y-4 sm:w-[500px]"
+      >
+        <div class="space-y-2.5">
+          <label for="email">Email:</label>
+          <input
+            placeholder="Email"
+            class="w-full py-2 pl-3.5 border border-gray-400 outline-none rounded"
+            type="email"
+            name="email"
+            id="email"
+          />
+        </div>
+        <div class="space-y-2.5">
+          <label for="password">Password:</label>
+          <input
+            placeholder="Password"
+            class="w-full py-2 pl-3.5 border border-gray-400 outline-none rounded"
+            type="password"
+            name="password"
+            id="password"
+          />
+        </div>
+        <div>
+          <input
+            class="w-full py-2 cursor-pointer bg-blue-500 hover:bg-blue-600 text-white font-semibold"
+            type="submit"
+            value="Login Account"
+          />
+          <a class="block mt-2 text-center" href="/auth/register"
+            >Don't have an
+            <span class="text-blue-500 hover:text-blue-600">account?</span></a
+          >
+        </div>
+      </form>
+    </main>
   </body>
 </html>

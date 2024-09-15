@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register</title>
+    <%- include('./partials/header.ejs') %>
+  </head>
+  <body>
+    <main class="w-[85%] mx-auto">
+      <form class="w-full">
+        <div class="flex justify-between">
+          <input
+            placeholder="Enter Your URL"
+            class="pl-3.5 bg-transparent w-full outline-none border-t border-l border-b rounded border-gray-200"
+            type="url"
+            name="url"
+            id="url"
+          />
+          <input
+            class="px-5 py-2 cursor-pointer bg-green-500 hover:bg-green-600 text-white font-semibold"
+            type="submit"
+            value="Generate Url"
+          />
+        </div>
+      </form>
+    </main>
+  </body>
+</html>
