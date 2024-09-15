@@ -10,7 +10,7 @@ const generate_Token = ({ _id, fullName, email }) => {
 const decode_Token = (req, res, next) => {
   const cookie = req.cookies.Token;
   if (cookie === undefined) {
-    return res.status(401).json({ msg: "Please Login first" });
+    return res.status(401).redirect("/auth/login");
   }
   const userData = JWT.verify(cookie, _configs.access_token_key);
   req.user = userData;

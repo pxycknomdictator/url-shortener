@@ -18,15 +18,15 @@ const handleRegisterNewUser = async (req, res) => {
   try {
     const validate = await validateUserInformation(req.body);
     if (validate.password === undefined) {
-      return res.json(validate);
+      return res.status(401).json(validate);
     }
     const hash = await hash_password(validate.password);
-    const newUser = await User.create({
+    await User.create({
       fullName: validate.fullName,
       email: validate.email,
       password: hash,
     });
-    res.status(201).json(newUser);
+    res.status(300).redirect("/auth/login");
   } catch (error) {
     res.status(401).send(`${error}`);
   }
@@ -40,18 +40,14 @@ const handleLoginUser = async (req, res) => {
       return res.status(401).json({ error: "Something went wrong" });
     }
     const token = generate_Token(isExist);
-    res.status(200).cookie("Token", token).json(isExist);
+    res.status(200).cookie("Token", token).redirect("/");
   } catch (error) {
     res.status(401).json({ error: `Error ${error?.message}` });
   }
 };
 
 const handleLogoutUser = async (req, res) => {
-  try {
-    res.status(201).json({ message: "Logout User" });
-  } catch (error) {
-    res.status(401).json({ error: `Error ${error?.message}` });
-  }
+  res.clearCookie("Token").redirect("/auth/login");
 };
 
 export {

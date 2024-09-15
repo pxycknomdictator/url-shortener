@@ -8,6 +8,17 @@
   </head>
   <body>
     <main class="w-[85%] mx-auto">
+      <% if (locals.fullName) { %>
+      <header class="flex items-center justify-between my-7">
+        <h1 class="text-3xl font-semibold">Welcome <%= fullName %> 👋</h1>
+        <a
+          class="px-5 py-1.5 cursor-pointer bg-red-500 rounded hover:bg-red-600 text-white font-semibold"
+          href="/auth/logout"
+          >Logout</a
+        >
+      </header>
+      <% } %>
+
       <form class="w-full">
         <div class="flex justify-between">
           <input

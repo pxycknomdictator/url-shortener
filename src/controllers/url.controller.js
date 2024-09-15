@@ -1,6 +1,11 @@
 import { Urls } from "../models/url.model.js";
 import { generateShortId } from "../services/shortid.js";
 
+const handleShowApplication = (req, res) => {
+  const { fullName } = req.user;
+  res.status(200).render("app", { fullName });
+};
+
 const handleGenerateShortUrl = async (req, res) => {
   const { url } = req.body;
   try {
@@ -32,4 +37,4 @@ const handleRedirectUrl = async (req, res) => {
   }
 };
 
-export { handleGenerateShortUrl, handleRedirectUrl };
+export { handleGenerateShortUrl, handleRedirectUrl, handleShowApplication };
