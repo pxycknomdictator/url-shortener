@@ -3,38 +3,72 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Register</title>
+    <title>URL Shortener</title>
     <%- include('./partials/header.ejs') %>
   </head>
   <body>
     <main class="w-[85%] mx-auto">
+      
       <% if (locals.fullName) { %>
       <header class="flex items-center justify-between my-7">
         <h1 class="text-3xl font-semibold">Welcome <%= fullName %> 👋</h1>
         <a
-          class="px-5 py-1.5 cursor-pointer bg-red-500 rounded hover:bg-red-600 text-white font-semibold"
+          class="px-5 py-1.5 cursor-pointer bg-red-500 hover:bg-red-600 text-white font-semibold"
           href="/auth/logout"
           >Logout</a
         >
       </header>
       <% } %>
 
-      <form class="w-full">
+      <form method="post" action="/generate-url" class="w-full">
         <div class="flex justify-between">
           <input
             placeholder="Enter Your URL"
-            class="pl-3.5 bg-transparent w-full outline-none border-t border-l border-b rounded border-gray-200"
+            class="pl-3.5 bg-transparent w-full outline-none border-t border-l border-b border-gray-500"
             type="url"
             name="url"
             id="url"
           />
           <input
-            class="px-5 py-2 cursor-pointer bg-green-500 hover:bg-green-600 text-white font-semibold"
+            class="px-5 py-2 cursor-pointer bg-green-500 hover:bg-green-600 text-white font-semibold border-t border-b border-r border-green-500"
             type="submit"
             value="Generate Url"
           />
         </div>
       </form>
+
+      <table class="w-full border border-gray-500 text-left mt-10">
+        <thead>
+          <tr class="text-white bg-black">
+            <th class="py-1 pl-3">original url</th>
+            <th class="py-1 pl-3">short it</th>
+            <th class="py-1 pl-3">short url</th>
+            <th class="py-1 pl-3">visit history</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% locals.urls.forEach(url => { %>
+          <tr class="border border-gray-500">
+            <td class="py-2 pl-3 truncate inline-block w-[400px]">
+              <%= url.originalUrl %>
+            </td>
+            <td class="py-2 pl-3"><%= url.shortId %></td>
+            <td class="py-2 pl-3">
+              <a
+                class="text-blue-500 hover:text-blue-600"
+                href="<%= url.shortUrl %>"
+                ><%= url.shortUrl %></a
+              >
+            </td>
+            <td class="text-center py-2 pl-3 w-[120px]">
+              <%= url.visit_history %>
+            </td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+
+
     </main>
   </body>
 </html>

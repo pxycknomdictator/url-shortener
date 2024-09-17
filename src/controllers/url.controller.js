@@ -1,23 +1,28 @@
 import { Urls } from "../models/url.model.js";
+import { User } from "../models/user.model.js";
 import { generateShortId } from "../services/shortid.js";
 
-const handleShowApplication = (req, res) => {
-  const { fullName } = req.user;
-  res.status(200).render("app", { fullName });
+const handleShowApplication = async (req, res) => {
+  const { fullName, _id } = req.user;
+  const all_urls = await User.findById({ _id }).populate("urls");
+  res.status(200).render("app", { fullName, urls: all_urls.urls });
 };
 
 const handleGenerateShortUrl = async (req, res) => {
   const { url } = req.body;
+  const userId = req.user._id;
   try {
     const id = generateShortId();
     const newUrl = await Urls.create({
       originalUrl: url,
       shortId: id,
       shortUrl: `localhost:3000/${id}`,
+      author: userId,
     });
-    res.status(201).json(newUrl);
+    await User.updateOne({ _id: userId }, { $push: { urls: newUrl._id } });
+    res.status(201).redirect("/");
   } catch (error) {
-    res.status(401).send(`Error ${error?.message}`);
+    res.status(500).send(`Error generating short URL: ${error.message}`);
   }
 };
 
